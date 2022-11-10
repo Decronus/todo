@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
+import { ADD_TODO } from "./store/types/todo";
+import { toggleToDo, removeToDo, filterToDo } from "./store/actions/todo";
+
 function App() {
   const dispatch = useDispatch();
   const toDoList = useSelector((state) => state.toDo.toDoList);
@@ -36,20 +39,20 @@ function App() {
       id: Math.floor(Math.random() * 10 ** 10),
       completed: false,
     };
-    dispatch({ type: "ADD_TODO", payload: toDo });
+    dispatch({ type: ADD_TODO, payload: toDo });
     setToDoName("");
   };
 
-  const toggleToDo = (id) => {
-    dispatch({ type: "TOGGLE_TODO", payload: id });
+  const handleToggleToDo = (id) => {
+    dispatch(toggleToDo(id));
   };
 
-  const removeToDo = (id) => {
-    dispatch({ type: "REMOVE_TODO", payload: id });
+  const handleRemoveToDo = (id) => {
+    dispatch(removeToDo(id));
   };
 
-  const filterToDo = (activeFilter) => {
-    dispatch({ type: "FILTER_TODO", payload: activeFilter });
+  const handleFilterToDo = (activeFilter) => {
+    dispatch(filterToDo(activeFilter));
   };
 
   return (
@@ -71,11 +74,8 @@ function App() {
           value={toDoName}
         />
         <button onClick={addToDo}>Добавить дело</button>
-        {/* <button onClick={() => addToDo(prompt("Введите название дела"))}>
-          Добавить дело
-        </button> */}
         <select
-          onChange={(event) => filterToDo(event.target.value)}
+          onChange={(event) => handleFilterToDo(event.target.value)}
           style={{
             display: toDoList.length > 0 ? "block" : "none",
             marginTop: "20px",
@@ -103,7 +103,7 @@ function App() {
                 <input
                   type="checkbox"
                   style={{ cursor: "pointer" }}
-                  onChange={() => toggleToDo(toDo.id)}
+                  onChange={() => handleToggleToDo(toDo.id)}
                   checked={toDo.completed}
                 />
                 <span
@@ -121,7 +121,7 @@ function App() {
                     fontSize: "10px",
                     cursor: "pointer",
                   }}
-                  onClick={() => removeToDo(toDo.id)}
+                  onClick={() => handleRemoveToDo(toDo.id)}
                 >
                   Удалить
                 </span>
