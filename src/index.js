@@ -7,8 +7,7 @@ import { Provider } from "react-redux";
 
 const defaultState = {
   toDoList: [],
-  filtredToDoList: [],
-  activeFilter: "ALL",
+  activefilter: "ALL",
 };
 
 const toDoReducer = (state = defaultState, action) => {
@@ -44,7 +43,7 @@ const toDoReducer = (state = defaultState, action) => {
       let activeFilter = action.payload;
       return {
         ...state,
-        filtredToDoList: [],
+        activeFilter: activeFilter,
       };
     }
 
